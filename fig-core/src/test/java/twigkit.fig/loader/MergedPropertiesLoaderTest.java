@@ -154,4 +154,29 @@ public class MergedPropertiesLoaderTest {
         assertEquals(2, fig.get("sub", "group", "folder-extension").values().size());
         assertEquals("test", fig.get("sub", "group", "folder-extension").value("group-folder-extension-key").as_string());
     }
+
+    @Test
+    public void testFallbackFigIsReturnedWhenTheOtherIsEmpty() {
+        Fig fig1 = Fig.getInstance(new PropertiesLoader("confs"));
+        Fig fig2 = Fig.getInstance(new MergedPropertiesLoader("confs", ""));
+
+        Iterator iterator = fig1.configs().iterator();
+        for (Config config2 : fig2.configs()) {
+            assertEquals(iterator.next(), config2);
+        }
+
+        fig1 = Fig.getInstance(new PropertiesLoader("confs"));
+        fig2 = Fig.getInstance(new MergedPropertiesLoader("", "confs"));
+
+        iterator = fig1.configs().iterator();
+        for (Config config2 : fig2.configs()) {
+            assertEquals(iterator.next(), config2);
+        }
+    }
+
+    @Test
+    public void testFigIsEmptyWhenBothPrimaryAndSecondaryFigPathsAreEmpty() {
+        Fig fig = Fig.getInstance(new MergedPropertiesLoader("", ""));
+        assertEquals(fig.configs().size(), 0);
+    }
 }

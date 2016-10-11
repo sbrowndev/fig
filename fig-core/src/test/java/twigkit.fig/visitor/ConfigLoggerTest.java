@@ -6,7 +6,7 @@ import twigkit.fig.Fig;
 import twigkit.fig.loader.PropertiesLoader;
 
 /**
- * Created by scottbrown on 10/10/2016.
+ * @author scottbrown 
  */
 public class ConfigLoggerTest {
 
